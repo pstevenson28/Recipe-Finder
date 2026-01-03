@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recipe Finder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <p>Student Number: G00439373</p>
+
+  <ion-item>
+    <ion-label position="floating">Enter Ingredients (comma separated)</ion-label>
+    <ion-input [(ngModel)]="searchIngredients"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="onSearch()">Search</ion-button>
+
+  <div *ngIf="recipes.length > 0" class="results">
+    <ion-card *ngFor="let recipe of recipes" style="margin-top: 15px;">
+      <img [src]="recipe.image" />
+      <ion-card-header>
+        <ion-card-title>{{ recipe.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button expand="block" color="primary">Details</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
