@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Favourites</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngIf="favourites.length > 0; else noFavourites">
+    <ion-item *ngFor="let recipe of favourites">
+      <ion-label>
+        {{ recipe.title }}
+      </ion-label>
+      <ion-button fill="clear" color="danger" (click)="remove(recipe.id)">
+        Remove
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noFavourites>
+    <p>No favourites yet.</p>
+  </ng-template>
+</ion-content>

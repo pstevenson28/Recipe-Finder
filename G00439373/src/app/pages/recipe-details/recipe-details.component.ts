@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { RecipeService } from '../../services/recipe-service';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { RecipeService, RecipeDetail } from '../../services/recipe-service';  // Adjust imports
 
 @Component({
   selector: 'app-recipe-details',
@@ -13,8 +13,8 @@ import { RecipeService } from '../../services/recipe-service';
 })
 export class RecipeDetailsComponent implements OnInit {
   recipeId!: number;
-  recipe: any;
-  loading = true;
+  recipeDetail?: RecipeDetail;
+  measurement: 'metric' | 'us' = 'metric';
 
   constructor(
     private route: ActivatedRoute,
@@ -23,15 +23,23 @@ export class RecipeDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'));
+    
+    // Load measurement from localStorage (default metric)
+    const savedMeasurement = localStorage.getItem('measurement');
+    if (savedMeasurement === 'us' || savedMeasurement === 'metric') {
+      this.measurement = savedMeasurement;
+    }
 
+    this.loadRecipe();
+  }
+
+  loadRecipe() {
     this.recipeService.getRecipeDetails(this.recipeId).subscribe({
       next: (data) => {
-        this.recipe = data;
-        this.loading = false;
+        this.recipeDetail = data;
       },
       error: (err) => {
-        console.error('Failed to load recipe', err);
-        this.loading = false;
+        console.error('Error fetching recipe details:', err);
       }
     });
   }

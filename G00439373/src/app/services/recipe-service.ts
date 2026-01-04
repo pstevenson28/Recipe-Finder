@@ -8,6 +8,25 @@ export interface RecipeSummary {
   image: string;
 }
 
+export interface RecipeDetail {
+  id: number;
+  title: string;
+  image: string;
+  extendedIngredients: {
+    original: string;
+    measures: {
+      metric: { amount: number; unitLong: string };
+      us: { amount: number; unitLong: string };
+    };
+  }[];
+  analyzedInstructions: {
+    steps: {
+      number: number;
+      step: string;
+    }[];
+  }[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,13 +44,10 @@ export class RecipeService {
     return this.http.get<{ results: RecipeSummary[] }>(this.apiUrl, { params });
   }
 
-  getRecipeDetails(id: number): Observable<any> {
-  const url = `https://api.spoonacular.com/recipes/${id}/information`;
+  getRecipeDetails(id: number): Observable<RecipeDetail> {
+    const url = `https://api.spoonacular.com/recipes/${id}/information`;
+    const params = new HttpParams().set('apiKey', this.apiKey);
 
-  const params = new HttpParams()
-    .set('apiKey', this.apiKey);
-
-  return this.http.get<any>(url, { params });
-}
-
+    return this.http.get<RecipeDetail>(url, { params });
+  }
 }

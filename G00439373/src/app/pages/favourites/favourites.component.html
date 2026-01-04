@@ -5,9 +5,16 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <p>Favourites Page</p>
+  <ion-list *ngIf="favourites.length > 0; else noFavs">
+    <ion-item *ngFor="let recipe of favourites" [routerLink]="['/details', recipe.id]">
+      <ion-thumbnail slot="start">
+        <img [src]="recipe.image" />
+      </ion-thumbnail>
+      <ion-label>{{ recipe.title }}</ion-label>
+    </ion-item>
+  </ion-list>
 
-  <ion-button routerLink="/home">
-    Back to Home
-  </ion-button>
+  <ng-template #noFavs>
+    <p>No favourite recipes yet.</p>
+  </ng-template>
 </ion-content>

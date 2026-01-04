@@ -1,29 +1,28 @@
 import { Component } from '@angular/core';
-import { FavouritesService } from '../../services/favourites.service';
-import { RecipeSummary } from '../../services/recipe-service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FavouritesService, FavouriteRecipe } from '../../services/favourites.service';
 
 @Component({
   selector: 'app-favourites',
   standalone: true,
   imports: [IonicModule, CommonModule, RouterModule],
-  templateUrl: './favourites.component.html',
-  styleUrls: ['./favourites.component.scss'],
+  templateUrl: './favourites.page.html',
+  styleUrls: ['./favourites.page.scss'],
 })
-export class FavouritesComponent {
-  favourites: RecipeSummary[] = [];
+export class FavouritesPage {
+  favourites: FavouriteRecipe[] = [];
 
   constructor(private favouritesService: FavouritesService) {}
 
   ionViewWillEnter() {
+    // Load favourites each time the page comes into view
     this.favourites = this.favouritesService.getFavourites();
   }
 
-  remove(index: number) {
-    this.favouritesService.removeFavourite(index);
+  remove(id: number) {
+    this.favouritesService.removeFavourite(id);
     this.favourites = this.favouritesService.getFavourites();
   }
 }
-
