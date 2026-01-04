@@ -4,24 +4,34 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+
 import { RecipeService, RecipeSummary } from '../../services/recipe-service';
 import { FavouritesService, FavouriteRecipe } from '../../services/favourites.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, RouterModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    RouterModule
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  searchIngredients: string = '';
+  searchIngredients = '';
   recipes: RecipeSummary[] = [];
+
+  loading = false;
+  errorMessage = '';
 
   constructor(
     private recipeService: RecipeService,
     private favouritesService: FavouritesService,
-    private toastController: ToastController  // inject toast controller
+    private toastController: ToastController
   ) {}
 
   onSearch() {
@@ -31,13 +41,24 @@ export class HomeComponent {
       return;
     }
 
+    this.loading = true;
+    this.errorMessage = '';
+    this.recipes = [];
+
     this.recipeService.searchRecipes(trimmed).subscribe({
       next: (response) => {
+        this.loading = false;
+
+        if (response.results.length === 0) {
+          this.errorMessage = 'No recipes found for these ingredients.';
+        }
+
         this.recipes = response.results;
       },
       error: (err) => {
+        this.loading = false;
+        this.errorMessage = 'Something went wrong. Please try again.';
         console.error('API error', err);
-        this.recipes = [];
       }
     });
   }
@@ -64,6 +85,6 @@ export class HomeComponent {
       duration: 2000,
       position: 'bottom',
     });
-    toast.present();
+    await toast.present();
   }
 }

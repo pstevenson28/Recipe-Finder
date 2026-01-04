@@ -45,4 +45,10 @@ export class FavouritesService {
     this.favourites = this.favourites.filter(r => r.id !== id);
     this.saveFavourites();
   }
+
+  clearFavourites() {
+  this.favourites = [];
+  this.saveFavourites();
+}
+
 }

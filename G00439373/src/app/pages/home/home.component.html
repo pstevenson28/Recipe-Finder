@@ -19,11 +19,21 @@
     Search
   </ion-button>
 
+  <!-- Loading spinner -->
+  <div class="spinner-container" *ngIf="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <!-- Error message -->
+  <ion-text color="danger" *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </ion-text>
+
   <!-- Results -->
-  <div *ngIf="recipes.length > 0">
+  <div *ngIf="!loading && recipes.length > 0">
 
     <ion-card *ngFor="let recipe of recipes" style="margin-top: 15px;">
-      <img [src]="recipe.image" />
+      <ion-img [src]="recipe.image"></ion-img>
 
       <ion-card-header>
         <ion-card-title>{{ recipe.title }}</ion-card-title>

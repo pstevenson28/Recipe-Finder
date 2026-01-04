@@ -11,16 +11,19 @@ export const routes: Routes = [
   {
     path: 'details/:id',
     loadComponent: () =>
-      import('./pages/recipe-details/recipe-details.component').then(m => m.RecipeDetailsComponent),
+      import('./pages/recipe-details/recipe-details.component')
+        .then(m => m.RecipeDetailsComponent),
   },
   {
     path: 'settings',
     loadComponent: () =>
-      import('./pages/settings/settings.component').then(m => m.SettingsComponent),
+      import('./pages/settings/settings.component')
+        .then(m => m.SettingsComponent),
   },
   {
     path: 'favourites',
     loadComponent: () =>
-      import('./pages/favourites/favourites.component').then(m => m.FavouritesComponent),
+      import('./pages/favourites/favourites.page')
+        .then(m => m.FavouritesPage),
   },
 ];

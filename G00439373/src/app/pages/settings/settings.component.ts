@@ -8,20 +8,30 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-  measurement: 'metric' | 'us' = 'metric';
+  measurement = 'metric';
+  darkMode = false;
 
   constructor() {
-    // Load saved measurement from localStorage (or default to 'metric')
-    const saved = localStorage.getItem('measurement');
-    if (saved === 'metric' || saved === 'us') {
-      this.measurement = saved;
-    }
+    const savedMeasurement = localStorage.getItem('measurement');
+    this.measurement = savedMeasurement ?? 'metric';
+
+    const savedDark = localStorage.getItem('darkMode');
+    this.darkMode = savedDark === 'true';
+    this.applyDarkMode();
   }
 
   onMeasurementChange() {
     localStorage.setItem('measurement', this.measurement);
+  }
+
+  toggleDarkMode() {
+    localStorage.setItem('darkMode', String(this.darkMode));
+    this.applyDarkMode();
+  }
+
+  private applyDarkMode() {
+    document.body.classList.toggle('dark', this.darkMode);
   }
 }

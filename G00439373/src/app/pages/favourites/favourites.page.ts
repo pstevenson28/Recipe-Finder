@@ -17,12 +17,18 @@ export class FavouritesPage {
   constructor(private favouritesService: FavouritesService) {}
 
   ionViewWillEnter() {
-    // Load favourites each time the page comes into view
     this.favourites = this.favouritesService.getFavourites();
   }
 
   remove(id: number) {
     this.favouritesService.removeFavourite(id);
     this.favourites = this.favouritesService.getFavourites();
+  }
+
+  clearFavourites() {
+    if (confirm('Are you sure you want to clear all favourites?')) {
+      this.favouritesService.clearFavourites();
+      this.favourites = [];
+    }
   }
 }
