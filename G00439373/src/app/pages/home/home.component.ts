@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RecipeService, RecipeSummary } from '../../services/recipe-service';  
+
+import { RecipeService, RecipeSummary } from '../../services/recipe-service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, HttpClientModule],
+  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

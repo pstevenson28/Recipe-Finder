@@ -9,7 +9,7 @@ export interface RecipeSummary {
 }
 
 @Injectable({
-  providedIn: 'root',  // Makes this service globally available
+  providedIn: 'root',
 })
 export class RecipeService {
   private readonly apiKey = '70759a4f7911402abcc53d3c51d3b759';
@@ -17,11 +17,6 @@ export class RecipeService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Search recipes by ingredients.
-   * @param ingredients A comma-separated string of ingredients.
-   * @returns An observable containing an object with a 'results' array of RecipeSummary.
-   */
   searchRecipes(ingredients: string): Observable<{ results: RecipeSummary[] }> {
     const params = new HttpParams()
       .set('query', ingredients)
