@@ -24,4 +24,14 @@ export class RecipeService {
 
     return this.http.get<{ results: RecipeSummary[] }>(this.apiUrl, { params });
   }
+
+  getRecipeDetails(id: number): Observable<any> {
+  const url = `https://api.spoonacular.com/recipes/${id}/information`;
+
+  const params = new HttpParams()
+    .set('apiKey', this.apiKey);
+
+  return this.http.get<any>(url, { params });
+}
+
 }

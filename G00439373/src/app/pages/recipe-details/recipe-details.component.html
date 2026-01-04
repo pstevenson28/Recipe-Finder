@@ -5,5 +5,35 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <p>Recipe ID: {{ recipeId }}</p>
+
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <div *ngIf="!loading && recipe">
+
+    <img [src]="recipe.image" style="width: 100%; border-radius: 8px;" />
+
+    <h2>{{ recipe.title }}</h2>
+
+    <h3>Ingredients</h3>
+    <ion-list>
+      <ion-item *ngFor="let ingredient of recipe.extendedIngredients">
+        {{ ingredient.original }}
+      </ion-item>
+    </ion-list>
+
+    <h3>Instructions</h3>
+    <ion-list *ngIf="recipe.analyzedInstructions?.length">
+      <ion-item
+        *ngFor="let step of recipe.analyzedInstructions[0].steps"
+      >
+        {{ step.number }}. {{ step.step }}
+      </ion-item>
+    </ion-list>
+
+    <p *ngIf="!recipe.analyzedInstructions?.length">
+      No instructions available.
+    </p>
+
+  </div>
+
 </ion-content>
