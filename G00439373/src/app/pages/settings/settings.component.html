@@ -5,9 +5,23 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <p>Settings Page</p>
 
-  <ion-button routerLink="/home">
-    Back to Home
-  </ion-button>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="measurement" (ionChange)="onMeasurementChange()">
+      <ion-list-header>
+        <ion-label>Measurement Units</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Metric</ion-label>
+        <ion-radio slot="start" value="metric"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>US</ion-label>
+        <ion-radio slot="start" value="us"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
 </ion-content>

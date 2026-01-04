@@ -1,17 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { IonHeader } from "@ionic/angular/standalone";
-import { IonicModule } from "@ionic/angular";
+import { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
-  imports: [IonHeader, IonicModule],
 })
-export class SettingsComponent  implements OnInit {
+export class SettingsComponent {
+  measurement: 'metric' | 'us' = 'metric';
 
-  constructor() { }
+  constructor() {
+    // Load saved measurement from localStorage (or default to 'metric')
+    const saved = localStorage.getItem('measurement');
+    if (saved === 'metric' || saved === 'us') {
+      this.measurement = saved;
+    }
+  }
 
-  ngOnInit() {}
-
+  onMeasurementChange() {
+    localStorage.setItem('measurement', this.measurement);
+  }
 }
