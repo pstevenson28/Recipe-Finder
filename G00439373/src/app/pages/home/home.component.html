@@ -8,6 +8,17 @@
 
   <p><strong>Student Number:</strong> G00439373</p>
 
+  <!-- Dark mode toggle for quick testing -->
+  <ion-item>
+    <ion-label>Dark Mode</ion-label>
+    <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+  </ion-item>
+
+  <!-- Button to go to Favourites page -->
+  <ion-button expand="block" color="tertiary" [routerLink]="['/favourites']" style="margin-bottom: 20px;">
+    Go to Favourites
+  </ion-button>
+
   <ion-item>
     <ion-label position="floating">
       Enter Ingredients (comma separated)
@@ -15,25 +26,23 @@
     <ion-input [(ngModel)]="searchIngredients"></ion-input>
   </ion-item>
 
-  <ion-button expand="block" (click)="onSearch()">
+  <ion-button expand="block" (click)="onSearch()" [disabled]="loading">
     Search
   </ion-button>
 
   <!-- Loading spinner -->
-  <div class="spinner-container" *ngIf="loading">
-    <ion-spinner name="crescent"></ion-spinner>
-  </div>
+  <ion-spinner *ngIf="loading" name="crescent" class="spinner-center"></ion-spinner>
 
   <!-- Error message -->
-  <ion-text color="danger" *ngIf="errorMessage">
-    <p>{{ errorMessage }}</p>
+  <ion-text color="danger" *ngIf="errorMessage" class="ion-padding">
+    {{ errorMessage }}
   </ion-text>
 
   <!-- Results -->
-  <div *ngIf="!loading && recipes.length > 0">
+  <div *ngIf="recipes.length > 0">
 
     <ion-card *ngFor="let recipe of recipes" style="margin-top: 15px;">
-      <ion-img [src]="recipe.image"></ion-img>
+      <img [src]="recipe.image" />
 
       <ion-card-header>
         <ion-card-title>{{ recipe.title }}</ion-card-title>
@@ -57,7 +66,6 @@
           Add to Favourites
         </ion-button>
       </ion-card-content>
-
     </ion-card>
 
   </div>

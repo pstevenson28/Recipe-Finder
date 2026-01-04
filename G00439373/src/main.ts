@@ -5,6 +5,14 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
+import { addIcons } from 'ionicons';
+import { heart, settings } from 'ionicons/icons';
+
+addIcons({
+  heart,
+  settings,
+});
+
 
 bootstrapApplication(AppComponent, {
   providers: [

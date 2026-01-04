@@ -11,28 +11,28 @@ import { FavouritesService, FavouriteRecipe } from '../../services/favourites.se
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule
-  ],
+  imports: [IonicModule, CommonModule, FormsModule, HttpClientModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  searchIngredients = '';
+  searchIngredients: string = '';
   recipes: RecipeSummary[] = [];
-
   loading = false;
   errorMessage = '';
+
+  darkMode = false;
 
   constructor(
     private recipeService: RecipeService,
     private favouritesService: FavouritesService,
     private toastController: ToastController
-  ) {}
+  ) {
+    // Load dark mode preference on init
+    const savedDark = localStorage.getItem('darkMode');
+    this.darkMode = savedDark === 'true';
+    this.applyDarkMode();
+  }
 
   onSearch() {
     const trimmed = this.searchIngredients.trim();
@@ -43,23 +43,21 @@ export class HomeComponent {
 
     this.loading = true;
     this.errorMessage = '';
-    this.recipes = [];
 
     this.recipeService.searchRecipes(trimmed).subscribe({
       next: (response) => {
         this.loading = false;
-
         if (response.results.length === 0) {
           this.errorMessage = 'No recipes found for these ingredients.';
         }
-
         this.recipes = response.results;
       },
       error: (err) => {
         this.loading = false;
-        this.errorMessage = 'Something went wrong. Please try again.';
+        this.errorMessage = 'Sorry, something went wrong. Please try again later.';
         console.error('API error', err);
-      }
+        this.recipes = [];
+      },
     });
   }
 
@@ -85,6 +83,15 @@ export class HomeComponent {
       duration: 2000,
       position: 'bottom',
     });
-    await toast.present();
+    toast.present();
+  }
+
+  toggleDarkMode() {
+    localStorage.setItem('darkMode', String(this.darkMode));
+    this.applyDarkMode();
+  }
+
+  private applyDarkMode() {
+    document.body.classList.toggle('dark', this.darkMode);
   }
 }
